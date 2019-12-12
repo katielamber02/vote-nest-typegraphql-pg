@@ -1,0 +1,8 @@
+mutation {
+  signup(
+    signupInput: { email: "b@gmail.com", password: "123456", userName: "BBB" }
+  ) {
+    path
+    message
+  }
+}
