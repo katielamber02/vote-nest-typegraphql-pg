@@ -16,3 +16,4 @@ nest generate resolver user --no-spec
  if any conflict when generating file schema.gql  : install nest-type-graphql
 
 
+ro ignore error:skipLibCheck:true in ts config
