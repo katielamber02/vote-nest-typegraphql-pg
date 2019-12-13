@@ -1,11 +1,8 @@
-// import { Injectable } from '@nestjs/common';
-
-// @Injectable()
-// export class UserService {}
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SignupInput } from './input/signupInput';
+import { confirmEmailLink } from '../utils/confirmEmailLink';
+import { sendEmail } from '../utils/sendEmail';
+import { SignupInput } from './input/user.singupInput';
 import { ErrorResponse } from './share/errorResponse';
 import { UserRepository } from './user.repository';
 
@@ -20,6 +17,7 @@ export class UserService {
     const userExist = await this.userRepo.findOne({
       where: { email: signupInput.email },
     });
+    console.log('USER EXISTS:', userExist);
 
     if (userExist) {
       return [
@@ -30,7 +28,8 @@ export class UserService {
       ];
     }
 
-    await this.userRepo.save({ ...signupInput });
+    const user = await this.userRepo.save({ ...signupInput });
+    await sendEmail(signupInput.email, await confirmEmailLink(user.id));
     return null;
   }
 }
