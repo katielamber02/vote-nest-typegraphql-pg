@@ -9,7 +9,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'voitingapp',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: true,
-  logging: true,
-  dropSchema: true,
+  logging: false,
   subscribers: [__dirname + '/../subscribers/*.subscriber{.ts,.js}'],
 };

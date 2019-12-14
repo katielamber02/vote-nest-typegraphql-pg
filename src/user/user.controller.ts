@@ -1,8 +1,3 @@
-// import { Controller } from '@nestjs/common';
-
-// @Controller('user')
-// export class UserController {}
-
 import { Controller, Get, Param, Response } from '@nestjs/common';
 import { Response as Res } from 'express';
 import { UserService } from './user.service';
