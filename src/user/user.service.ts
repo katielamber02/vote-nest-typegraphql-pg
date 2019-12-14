@@ -11,6 +11,7 @@ import { SignupInput } from './input/user.singupInput';
 import { errorMessage } from './share/errorMessage';
 import { ErrorResponse } from './share/errorResponse';
 import { UserRepository } from './user.repository';
+import { MyContext } from './../types/myContext';
 
 @Injectable()
 export class UserService {
@@ -67,5 +68,14 @@ export class UserService {
     console.log('REQ_SESSION:', req.session);
     req.session.userId = user.id;
     return null;
+  }
+
+  async logout(ctx: MyContext) {
+    await ctx.req.session.destroy(err => {
+      console.log(err);
+      return false;
+    });
+    await ctx.res.clearCookie('vote');
+    return true;
   }
 }
