@@ -6,11 +6,11 @@
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PollOptionRepository, PollRepository } from './poll.repository';
-import { MyContext } from './../types/myContext';
-import { redis } from './../redis';
-import { POLL_OPTION_ID_PREFIX } from './../constants';
+import { POLL_OPTION_ID_PREFIX } from '../constants';
+import { redis } from '../redis';
+import { MyContext } from '../types/myContext';
 import { Poll } from './poll.entity';
+import { PollOptionRepository, PollRepository } from './poll.repository';
 
 @Injectable()
 export class PollService {
@@ -25,7 +25,7 @@ export class PollService {
     userId: string,
     name: string,
     options: string[],
-  ): Promise<boolean> {
+  ): Promise<Boolean> {
     const poll = await this.pollRepo.insert({
       name,
       userId,
@@ -39,16 +39,10 @@ export class PollService {
       });
     });
 
-    const newPoll = await this.pollRepo.findOne({
-      where: { id: poll.raw[0].id },
-      relations: ['pollOption'],
-    });
-    console.log(newPoll);
-
     return true;
   }
 
-  async vote(ctx: MyContext, pollOptionId: number): Promise<boolean> {
+  async vote(ctx: MyContext, pollOptionId: number): Promise<Boolean> {
     const pollOption = await this.pollOptionRepo.findOne({
       where: { id: pollOptionId },
     });
@@ -92,7 +86,7 @@ export class PollService {
       .getMany();
   }
 
-  async deletePoll(ctx: MyContext, id: number): Promise<boolean> {
+  async deletePoll(ctx: MyContext, id: number): Promise<Boolean> {
     try {
       await this.pollRepo.delete({ id });
       const ip =
@@ -103,5 +97,9 @@ export class PollService {
       return false;
     }
     return true;
+  }
+
+  async myPoll(userId: string): Promise<Poll[]> {
+    return await this.pollRepo.find({ where: { userId } });
   }
 }
