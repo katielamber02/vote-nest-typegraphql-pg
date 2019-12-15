@@ -20,10 +20,27 @@ type Mutation {
   logout: Boolean!
   createPoll(name: String!, options: [String!]!): Boolean!
   vote(pollOptionId: Float!): Boolean!
+  deletePoll(id: Float!): Boolean!
+}
+
+type Poll {
+  id: Float!
+  name: String!
+  userId: String!
+  pollOption: [PollOption!]!
+}
+
+type PollOption {
+  id: Float!
+  text: String!
+  votes: Float!
+  pollId: Float!
 }
 
 type Query {
   hello: String!
+  poll(id: Float!): Poll!
+  allPolls(take: Float!, skip: Float!): [Poll!]!
 }
 
 """Signup Input"""

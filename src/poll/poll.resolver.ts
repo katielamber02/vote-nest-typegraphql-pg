@@ -26,6 +26,9 @@ import { GetUserId } from './getUserId.decorator';
 import { PollService } from './poll.service';
 import { Context } from '@nestjs/graphql';
 import { MyContext } from './../types/myContext';
+import { Query } from '@nestjs/graphql';
+import { Poll } from './poll.entity';
+import { AllPollsArgs } from './args/AllPollsArgs';
 
 @Resolver('Poll')
 export class PollResolver {
@@ -45,5 +48,23 @@ export class PollResolver {
     @Args('pollOptionId') pollOptionId: number,
   ): Promise<boolean> {
     return this.pollService.vote(ctx, pollOptionId);
+  }
+
+  @Query(() => Poll)
+  async poll(@Args('id') id: number): Promise<Poll> {
+    return this.pollService.poll(id);
+  }
+
+  @Query(() => [Poll])
+  async allPolls(@Args() { take, skip }: AllPollsArgs): Promise<Poll[]> {
+    return this.pollService.allPolls(take, skip);
+  }
+
+  @Mutation(() => Boolean)
+  async deletePoll(
+    @Context() ctx: MyContext,
+    @Args('id') id: number,
+  ): Promise<boolean> {
+    return this.pollService.deletePoll(ctx, id);
   }
 }

@@ -10,6 +10,7 @@ import { PollOptionRepository, PollRepository } from './poll.repository';
 import { MyContext } from './../types/myContext';
 import { redis } from './../redis';
 import { POLL_OPTION_ID_PREFIX } from './../constants';
+import { Poll } from './poll.entity';
 
 @Injectable()
 export class PollService {
@@ -71,6 +72,36 @@ export class PollService {
     );
 
     await redis.sadd(`${POLL_OPTION_ID_PREFIX}${pollOption.pollId}`, ip);
+    return true;
+  }
+
+  async poll(id: number): Promise<Poll> {
+    return await this.pollRepo.findOne({
+      where: { id },
+      relations: ['pollOption'],
+    });
+  }
+
+  async allPolls(take: number, skip: number): Promise<Poll[]> {
+    return this.pollRepo
+      .createQueryBuilder('poll')
+      .innerJoinAndSelect('poll.pollOption', 'pollOption')
+      .orderBy('poll.name', 'ASC')
+      .take(take)
+      .skip(skip)
+      .getMany();
+  }
+
+  async deletePoll(ctx: MyContext, id: number): Promise<boolean> {
+    try {
+      await this.pollRepo.delete({ id });
+      const ip =
+        ctx.req.header('x-forwarded-for') || ctx.req.connection.remoteAddress;
+
+      await redis.srem(`${POLL_OPTION_ID_PREFIX}${id}`, ip);
+    } catch (err) {
+      return false;
+    }
     return true;
   }
 }
