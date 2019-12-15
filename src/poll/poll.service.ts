@@ -7,6 +7,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PollOptionRepository, PollRepository } from './poll.repository';
+import { MyContext } from './../types/myContext';
+import { redis } from './../redis';
+import { POLL_OPTION_ID_PREFIX } from './../constants';
 
 @Injectable()
 export class PollService {
@@ -41,6 +44,33 @@ export class PollService {
     });
     console.log(newPoll);
 
+    return true;
+  }
+
+  async vote(ctx: MyContext, pollOptionId: number): Promise<boolean> {
+    const pollOption = await this.pollOptionRepo.findOne({
+      where: { id: pollOptionId },
+    });
+
+    const ip =
+      ctx.req.header('x-forwarded-for') || ctx.req.connection.remoteAddress;
+
+    if (ip) {
+      const hasIp = await redis.sismember(
+        `${POLL_OPTION_ID_PREFIX}${pollOption.pollId}`,
+        ip,
+      );
+      if (hasIp) {
+        return false;
+      }
+    }
+
+    await this.pollOptionRepo.update(
+      { id: pollOptionId },
+      { votes: pollOption.votes + 1 },
+    );
+
+    await redis.sadd(`${POLL_OPTION_ID_PREFIX}${pollOption.pollId}`, ip);
     return true;
   }
 }

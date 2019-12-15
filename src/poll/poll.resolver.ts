@@ -24,6 +24,8 @@ import { CreatePollArgs } from './args/createPollArgs.args';
 import { AuthGuard } from './auth.guard';
 import { GetUserId } from './getUserId.decorator';
 import { PollService } from './poll.service';
+import { Context } from '@nestjs/graphql';
+import { MyContext } from './../types/myContext';
 
 @Resolver('Poll')
 export class PollResolver {
@@ -35,5 +37,13 @@ export class PollResolver {
     @Args() { name, options }: CreatePollArgs,
   ): Promise<boolean> {
     return this.pollService.createPoll(userId, name, options);
+  }
+
+  @Mutation(() => Boolean)
+  async vote(
+    @Context() ctx: MyContext,
+    @Args('pollOptionId') pollOptionId: number,
+  ): Promise<boolean> {
+    return this.pollService.vote(ctx, pollOptionId);
   }
 }
