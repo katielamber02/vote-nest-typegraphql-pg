@@ -1,17 +1,17 @@
 import { NestFactory } from '@nestjs/core';
+import * as Store from 'connect-redis';
 import * as dotenv from 'dotenv';
 import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { SESSION_SECRET } from './constants';
-import * as Store from 'connect-redis';
 import { redis } from './redis';
 
 dotenv.config();
 
 async function bootstrap() {
   const RedisStore = Store(session);
+
   const app = await NestFactory.create(AppModule);
-  console.log('MY_API_KEY:', process.env.SENDGRID_API_KEY);
   app.use(
     session({
       store: new RedisStore({

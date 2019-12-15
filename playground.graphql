@@ -6,3 +6,47 @@ mutation {
     message
   }
 }
+
+RES:
+{
+  "data": {
+    "signup": null
+  }
+}
+
+mutation {
+  login(loginInput: { email: "kaw.sharif@owee.org", password: "123456" }) {
+    path
+    message
+  }
+}
+RES:
+{
+  "data": {
+    "login": null
+  }
+}
+
+
+
+mutation {
+  logout
+}
+RES:
+{
+  "data": {
+    "logout": true
+  }
+}
+
+
+ mutation{
+    createPoll(name:"Me",options:["hello","BE-be-be"])
+  }
+
+ RES:
+ {
+  "data": {
+    "createPoll": true
+  }
+} 

@@ -8,9 +8,7 @@ type ErrorResponse {
   message: String!
 }
 
-"""
-Login Input
-"""
+"""Login Input"""
 input LoginInput {
   email: String!
   password: String!
@@ -20,15 +18,14 @@ type Mutation {
   signup(signupInput: SignupInput!): [ErrorResponse!]
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
+  createPoll(name: String!, options: [String!]!): Boolean!
 }
 
 type Query {
   hello: String!
 }
 
-"""
-Signup Input
-"""
+"""Signup Input"""
 input SignupInput {
   userName: String!
   email: String!

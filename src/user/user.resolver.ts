@@ -2,7 +2,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MyContext } from 'src/types/myContext';
 import { LoginInput } from './input/user.loginInput';
 import { SignupInput } from './input/user.singupInput';
-import { ErrorResponse } from './share/errorResponse';
+import { ErrorResponse } from './shared/errorResponse';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 

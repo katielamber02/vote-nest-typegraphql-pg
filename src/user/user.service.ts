@@ -4,14 +4,14 @@ import * as bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { CONFIRM_EMAIL_PREFIX } from '../constants';
 import { redis } from '../redis';
+import { MyContext } from '../types/myContext';
 import { confirmEmailLink } from '../utils/confirmEmailLink';
 import { sendEmail } from '../utils/sendEmail';
 import { LoginInput } from './input/user.loginInput';
 import { SignupInput } from './input/user.singupInput';
-import { errorMessage } from './share/errorMessage';
-import { ErrorResponse } from './share/errorResponse';
+import { errorMessage } from './shared/errorMessage';
+import { ErrorResponse } from './shared/errorResponse';
 import { UserRepository } from './user.repository';
-import { MyContext } from './../types/myContext';
 
 @Injectable()
 export class UserService {
@@ -24,7 +24,7 @@ export class UserService {
     const userExists = await this.userRepo.findOne({
       where: { email: signupInput.email },
     });
-    console.log(userExists, 'userExists');
+    console.log(userExists, 'userExissts');
 
     if (userExists) {
       return errorMessage('email', 'invalid email or password');
@@ -65,7 +65,6 @@ export class UserService {
     if (!checkPassword) {
       return errorMessage('email', 'invalid email or password');
     }
-    console.log('REQ_SESSION:', req.session);
     req.session.userId = user.id;
     return null;
   }
