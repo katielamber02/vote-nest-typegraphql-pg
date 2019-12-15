@@ -179,3 +179,63 @@ RES:
     "deletePoll": true
   }
 }
+
+{
+  myPoll{
+    id
+    name
+    userId
+    pollOption{
+      id
+      text
+      votes
+      pollId
+    }
+  }
+}
+
+RES:
+{
+  "data": {
+    "myPoll": [
+      {
+        "id": 3,
+        "name": "Me1",
+        "userId": "e3a4b9bf-4d35-4f14-aad2-418c113d42d5",
+        "pollOption": [
+          {
+            "id": 5,
+            "text": "hello1",
+            "votes": 0,
+            "pollId": 3
+          },
+          {
+            "id": 6,
+            "text": "1-Do-do-do",
+            "votes": 0,
+            "pollId": 3
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Me2",
+        "userId": "e3a4b9bf-4d35-4f14-aad2-418c113d42d5",
+        "pollOption": [
+          {
+            "id": 7,
+            "text": "hello2",
+            "votes": 0,
+            "pollId": 4
+          },
+          {
+            "id": 8,
+            "text": "2",
+            "votes": 0,
+            "pollId": 4
+          }
+        ]
+      }
+    ]
+  }
+}
