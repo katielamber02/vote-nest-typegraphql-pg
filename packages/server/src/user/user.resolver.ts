@@ -5,26 +5,28 @@ import { SignupInput } from './input/user.singupInput';
 import { ErrorResponse } from './shared/errorResponse';
 import { User } from './user.entity';
 import { UserService } from './user.service';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 import { YupValidationPipe } from '../pipes/yupValidationPipe';
 import { UsePipes } from '@nestjs/common';
+import { signupInputSchema } from '@vote/common';
 
-const schema = yup.object().shape({
-  userName: yup
-    .string()
-    .min(3)
-    .max(30)
-    .required(),
-  email: yup
-    .string()
-    .email()
-    .required(),
-  password: yup
-    .string()
-    .min(3, 'password must be atleast 3 charachters long')
-    .max(150)
-    .required(),
-});
+// 20. moved to common/schemas/user.ts
+// const schema = yup.object().shape({
+//   userName: yup
+//     .string()
+//     .min(3)
+//     .max(30)
+//     .required(),
+//   email: yup
+//     .string()
+//     .email()
+//     .required(),
+//   password: yup
+//     .string()
+//     .min(3, 'password must be atleast 3 charachters long')
+//     .max(150)
+//     .required(),
+// });
 
 @Resolver(User)
 export class UserResolver {
@@ -36,7 +38,7 @@ export class UserResolver {
   }
 
   @Mutation(() => [ErrorResponse], { nullable: true })
-  @UsePipes(new YupValidationPipe(schema))
+  @UsePipes(new YupValidationPipe(signupInputSchema))
   async signup(
     @Args('signupInput') signupInput: SignupInput,
   ): Promise<ErrorResponse[] | null> {
