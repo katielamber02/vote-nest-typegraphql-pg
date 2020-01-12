@@ -1,0 +1,241 @@
+mutation {
+  signup(
+    signupInput: { email: "b@gmail.com", password: "123456", userName: "BBB" }
+  ) {
+    path
+    message
+  }
+}
+
+RES:
+{
+  "data": {
+    "signup": null
+  }
+}
+
+mutation {
+  login(loginInput: { email: "kaw.sharif@owee.org", password: "123456" }) {
+    path
+    message
+  }
+}
+RES:
+{
+  "data": {
+    "login": null
+  }
+}
+
+
+
+mutation {
+  logout
+}
+RES:
+{
+  "data": {
+    "logout": true
+  }
+}
+
+
+ mutation{
+    createPoll(name:"Me",options:["hello","BE-be-be"])
+  }
+
+ RES:
+ {
+  "data": {
+    "createPoll": true
+  }
+} 
+
+
+{
+  poll(id:1){
+    id
+    name
+    userId
+    pollOption{
+      id
+      text
+      votes
+      pollId
+    }
+  }
+}
+
+RES:
+{
+  "data": {
+    "poll": {
+      "id": 1,
+      "name": "Me",
+      "userId": "8c2a85c8-c1a9-4bb5-9a12-f22954e17891",
+      "pollOption": [
+        {
+          "id": 1,
+          "text": "hello",
+          "votes": 0,
+          "pollId": 1
+        },
+        {
+          "id": 2,
+          "text": "BE-be-be",
+          "votes": 1,
+          "pollId": 1
+        }
+      ]
+    }
+  }
+}
+
+
+{
+  allPolls(take:3,skip:0){
+    id
+    name
+    userId
+    pollOption{
+      id
+      votes
+      text
+      pollId
+    }
+  }
+}
+RES:
+{
+  "data": {
+    "allPolls": [
+      {
+        "id": 1,
+        "name": "Me",
+        "userId": "8c2a85c8-c1a9-4bb5-9a12-f22954e17891",
+        "pollOption": [
+          {
+            "id": 1,
+            "votes": 0,
+            "text": "hello",
+            "pollId": 1
+          },
+          {
+            "id": 2,
+            "votes": 1,
+            "text": "BE-be-be",
+            "pollId": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Me",
+        "userId": "8c2a85c8-c1a9-4bb5-9a12-f22954e17891",
+        "pollOption": [
+          {
+            "id": 4,
+            "votes": 0,
+            "text": "Bo-bo-bo",
+            "pollId": 2
+          },
+          {
+            "id": 3,
+            "votes": 1,
+            "text": "hello",
+            "pollId": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Me1",
+        "userId": "e3a4b9bf-4d35-4f14-aad2-418c113d42d5",
+        "pollOption": [
+          {
+            "id": 5,
+            "votes": 0,
+            "text": "hello1",
+            "pollId": 3
+          },
+          {
+            "id": 6,
+            "votes": 0,
+            "text": "1-Do-do-do",
+            "pollId": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+
+mutation{
+  deletePoll(id:5)
+}
+RES:
+{
+  "data": {
+    "deletePoll": true
+  }
+}
+
+{
+  myPoll{
+    id
+    name
+    userId
+    pollOption{
+      id
+      text
+      votes
+      pollId
+    }
+  }
+}
+
+RES:
+{
+  "data": {
+    "myPoll": [
+      {
+        "id": 3,
+        "name": "Me1",
+        "userId": "e3a4b9bf-4d35-4f14-aad2-418c113d42d5",
+        "pollOption": [
+          {
+            "id": 5,
+            "text": "hello1",
+            "votes": 0,
+            "pollId": 3
+          },
+          {
+            "id": 6,
+            "text": "1-Do-do-do",
+            "votes": 0,
+            "pollId": 3
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Me2",
+        "userId": "e3a4b9bf-4d35-4f14-aad2-418c113d42d5",
+        "pollOption": [
+          {
+            "id": 7,
+            "text": "hello2",
+            "votes": 0,
+            "pollId": 4
+          },
+          {
+            "id": 8,
+            "text": "2",
+            "votes": 0,
+            "pollId": 4
+          }
+        ]
+      }
+    ]
+  }
+}
