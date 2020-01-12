@@ -2,6 +2,7 @@ import ApolloClient from "apollo-boost";
 import React from "react";
 import { ApolloProvider } from "react-apollo-hooks";
 import { StyleSheet, Text, View } from "react-native";
+import AppContainer from "./navigation/AppContainer";
 
 const client = new ApolloClient({
     uri: "http://localhost:3013/graphql"
@@ -10,9 +11,10 @@ const client = new ApolloClient({
 export default function App() {
     return (
         <ApolloProvider client={client}>
-            <View style={styles.container}>
+            <AppContainer />
+            {/* <View style={styles.container}>
                 <Text>MY TEXT</Text>
-            </View>
+            </View> */}
         </ApolloProvider>
     );
 }
